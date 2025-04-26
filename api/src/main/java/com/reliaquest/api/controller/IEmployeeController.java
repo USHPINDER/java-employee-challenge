@@ -1,43 +1,43 @@
 package com.reliaquest.api.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
+import com.reliaquest.api.constants.Constants;
+import com.reliaquest.api.DTO.Employee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Please <b>do not</b> modify this interface. If you believe there's a bug or the API contract does not align with our
- * mock web server... that is intentional. Good luck!
- *
- * @implNote It's uncommon to have a web controller implement an interface; We include such design pattern to
- * ensure users are following the desired input/output for our API contract, as outlined in the code assessment's README.
- *
- * @param <Entity> object representation of an Employee
- * @param <Input> object representation of a request body for creating Employee(s)
- */
-public interface IEmployeeController<Entity, Input> {
 
-    @GetMapping()
-    ResponseEntity<List<Entity>> getAllEmployees();
 
-    @GetMapping("/search/{searchString}")
-    ResponseEntity<List<Entity>> getEmployeesByNameSearch(@PathVariable String searchString);
+@RestController
+public interface IEmployeeController {
 
-    @GetMapping("/{id}")
-    ResponseEntity<Entity> getEmployeeById(@PathVariable String id);
+	@GetMapping()
+	ResponseEntity<List<Employee>> getAllEmployees() throws IOException;
 
-    @GetMapping("/highestSalary")
-    ResponseEntity<Integer> getHighestSalaryOfEmployees();
+	@GetMapping(Constants.REST_API_URI_GET_EMPLOYEES_BY_NAME)
+	ResponseEntity<List<Employee>> getEmployeesByNameSearch(@PathVariable String searchString);
 
-    @GetMapping("/topTenHighestEarningEmployeeNames")
-    ResponseEntity<List<String>> getTopTenHighestEarningEmployeeNames();
+	@GetMapping(Constants.REST_API_URI_EMPLOYEE_ID)
+	ResponseEntity<Employee> getEmployeeById(@PathVariable String id);
 
-    @PostMapping()
-    ResponseEntity<Entity> createEmployee(@RequestBody Input employeeInput);
+	@GetMapping(Constants.REST_API_URI_GET_HIGHEST_SALARY)
+	ResponseEntity<Integer> getHighestSalaryOfEmployees();
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<String> deleteEmployeeById(@PathVariable String id);
+	@GetMapping(Constants.REST_API_URI_GET_TOP_TEN_EMPLOYEE_NAMES)
+	ResponseEntity<List<String>> getTopTenHighestEarningEmployeeNames();
+
+	@PostMapping()
+	ResponseEntity<Object> createEmployee(@RequestBody Map<String, Object> employeeInput);
+
+	@DeleteMapping(Constants.REST_API_URI_EMPLOYEE_ID)
+	ResponseEntity<Object> deleteEmployeeById(@PathVariable String id);
+
 }
